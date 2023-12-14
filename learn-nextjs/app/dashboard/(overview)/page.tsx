@@ -13,7 +13,8 @@ import {
 
  
  
-export default async function Page() {
+export default async function Page(props:{params:{},searchParams:{}}) {
+  console.log(props?.params,props?.searchParams);
   //  const revenue = await fetchRevenue();
   //  const latestInvoices = await fetchLatestInvoices();
   //  const {
