@@ -34,6 +34,6 @@ const userSchema = new mongoose.Schema(
 );
 
 //imp point, same as db
-const User = mongoose.models.users || mongoose.model("User", userSchema);
+const User = mongoose.models.users || mongoose.model("users", userSchema);
 //by default mongodb create collection with name "users", "User"= "users", naming convension mongodb => lowercase + prural
 export default User;

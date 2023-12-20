@@ -3,15 +3,18 @@ import react from 'react';
 import Link from "next/link"
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
+import toast from 'react-hot-toast';
+import {Toaster} from 'react-hot-toast';
 
 export default function SignupPage() {
   const router = useRouter();
   const [user,setUser] = react.useState({username:"",email:"",password:""})
   const [loading,setLoading] = react.useState(false);
   const [btnDisabled,setBtnDisabled] = react.useState(true);
- react.useEffect(()=>{
+  react.useEffect(()=>{
    if(user.username.length > 0 && user.email.length > 0 && user.password.length > 0){
     setBtnDisabled(false)
+    toast.success("Form is valid")
    }else{
     setBtnDisabled(true)
    }
@@ -21,20 +24,23 @@ export default function SignupPage() {
    console.log(user)
    try {
     setLoading(true);
-    const response = await axios.post("/api/signup",user)
+    const response = await axios.post("/api/users/signup",user)
     console.log(response.data,"data")
       if(response.data.success === true){
       return router.push("/login");
       }
       throw new Error(response.data.message);
-   } catch (error) {
-    console.log(error)
+   } catch (errorM:any) {
+    toast.error(errorM)
+    console.log(errorM)
    }finally{//use case for finally
      setLoading(false);
    }
   }
   
   return (
+    <>
+    <Toaster position="top-center" reverseOrder={false}/>
      <form action="" onSubmit={handleSubmit} className='w-full h-screen flex flex-col gap-10 justify-center items-center'>
       {loading && <p>Loading...</p>}
          <h1 className="text-3xl">SignUp</h1>
@@ -53,5 +59,6 @@ export default function SignupPage() {
       <button type='submit' disabled={btnDisabled ? true : false} className={`p-2 rounded text-white ${btnDisabled ? "bg-blue-200" : "bg-blue-500 "}`}>SignUp</button>
       <Link href="/login" className="text-blue-500">Login</Link>
      </form>       
+    </>
     )
 }
