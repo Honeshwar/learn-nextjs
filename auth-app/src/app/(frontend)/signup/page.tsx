@@ -24,15 +24,17 @@ export default function SignupPage() {
    console.log(user)
    try {
     setLoading(true);
-    const response = await axios.post("/api/users/signup",user)
+    const response = await axios.post("/api/users/signup",user)// id axios ma any status 404,500 automaticaly give an error called axios error , automatically pass response from axios error obj to catch ma
     console.log(response.data,"data")
       if(response.data.success === true){
-      return router.push("/login");
+        toast.success(response.data.message)
+        return router.push("/login");
       }
-      throw new Error(response.data.message);
-   } catch (errorM:any) {
-    toast.error(errorM)
-    console.log(errorM)
+      // only work when status 100,200,300, or when success = false
+      throw new Error(response.data.message) ;
+   } catch (error:any) {
+     console.log(error.response?.data?.message || error)
+      toast.error(error.response?.data?.message || error.toString())
    }finally{//use case for finally
      setLoading(false);
    }

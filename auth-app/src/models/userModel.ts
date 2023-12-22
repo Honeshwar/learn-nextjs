@@ -26,9 +26,9 @@ const userSchema = new mongoose.Schema(
       default: false,
     },
     verifyUserToken: String,
-    verifyUserExpiry: Date, //so user have to do it within time, not like 30day after he/she do
+    verifyUserTokenExpiry: Date, //so user have to do it within time, not like 30day after he/she do
     forgetPasswordToken: String,
-    forgetPasswordExpiry: Date,
+    forgetPasswordTokenExpiry: Date,
   },
   { timestamps: true },
 );
